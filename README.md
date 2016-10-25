@@ -1,17 +1,13 @@
-# GadgetFreak
+# Expense Calculator
 
-   __*Spletna aplikacija pri predmetu Spletno programiranje*__
+   __*Web aplication for Web programming*__
 
+## What is Expense Calculator?
+It is a web aplication, that helps you save some money and manage your expenses.
 
-## Kaj je GadgetFreak?
-To je spletna aplikacija, ki omogoča izmenjavo mnenj o različnih napravah med uporabniki.
+## Who can use the aplication?
+Anyone who wants know what is happening with their money.
 
-## Ali je aplikacija primerna zame?
-Če kupuješ novo elektronsko napravo (računalnik, telefon, tablica, fotoaparat, itd...), ter si želiš podrobneje spoznati napravo preden jo kupiš, je aplikacija gotovo primerna zate. Seveda pa smo tukaj tudi ljudje, ki v prostem času radi preverjamo kaj je novega na trgu in kaj menijo kupci o teh napravah, po tem ko so napravo uporabljali že nekaj časa.
-
-## Kaj lahko kot uporabnik počnem?
-Dodaš lahko nove naprave ali dodaš slike že obstoječim napravam ter podaš mnenje o njih. Vsak uporabnik lahko vidi tvoje prispevke, jih komentira ali doda novo temo na forum, za debato (o kakovosti, o problemih in napakah, o dodatni opremi, ...).
-
-## Na katerih napravah je aplikacija podprta?
-Aplikacija je dostopna iz katerekoli mobilne naprave ali računalnika.
+## What devices are supported?
+Mobile devces, tablets and computers.
 
