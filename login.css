@@ -1,0 +1,50 @@
+.login{
+	position: relative;
+   margin: 10px auto;
+   padding: 10px;
+   max-width: 400px;
+   height: 350px;
+   border: 1px solid #4086AA;
+   text-align: center;
+   background-color: #ffffff;
+   box-shadow: 10px 10px 5px #555555;
+}
+body{
+	background-image: url("1.jpg");
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed;
+	background-size: cover;
+
+}
+.font{
+	font: italic bold 12px/30px Georgia, serif;
+}
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+input[type=password], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+input[type=submit] {
+    width: 50%;
+    background-color:  #4086AA;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
