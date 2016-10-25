@@ -1,9 +1,9 @@
 .login{
 	position: relative;
-   margin: 10px auto;
+   margin: 30px auto;
    padding: 10px;
    max-width: 400px;
-   height: 350px;
+   height: auto;
    border: 1px solid #4086AA;
    text-align: center;
    background-color: #ffffff;
@@ -40,8 +40,18 @@ input[type=password], select {
 }
 input[type=submit] {
     width: 50%;
-    background-color:  #4086AA;
+    background-color:  #274256;
     color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#register{
+	width: 30%;
+	color:  #274256;
+    background-color: white;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
