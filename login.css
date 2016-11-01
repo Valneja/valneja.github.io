@@ -48,6 +48,18 @@ input[type=submit] {
     border-radius: 4px;
     cursor: pointer;
 }
+
+#loginbtn {
+    width: 50%;
+    background-color:  #274256;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 #register{
 	width: 30%;
 	color:  #274256;
