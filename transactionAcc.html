@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Life expenses</title>
+	<script src="./lifeExpenses.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="./lifeExpenses.css">
+</head>
+<body>
+	<div style="text-align:center">
+		
+		<a href="lifeExpenses.html">
+		<img src="./slike/logo1.png">
+		</a>
+
+	<div>
+	</div>
+		
+		<ul>
+		  <li><a class="active" href="#home">Home</a></li>
+		  <li><a href="#tr">Transaction account</a></li>
+		  <li><a href="#sa">Savings account</a></li>
+		  <li><a href="#wa">Wallet</a></li>
+		</ul>
+		<div class="main">
+			
+			<div class="account1">
+				<h4>Transaction account</h4>
+				<div class="acc-content">
+					<div>
+					Balance:<br>
+					100€
+					</div>
+					<select>
+						<option value="wallet">Wallet</option>
+						<option value="savings">Savings account</option>
+					
+					</select><br>
+					Amount:<br>
+					<input type="number" value="0"  name="amount"><br>
+					<button class="accbtn">Transfer</button>
+					</div>	
+				</div>
+			<div>
+				<table id="table">
+					<tr>
+						<th>Name of action</th>
+						<th>Amount (€)</th>
+						<th>Date</th>
+						<th>Type</th>
+						<th>Balance(€)</th>
+					</tr>
+					<tr>
+						<td>grosery</td>
+						<td>-26.40</td>
+						<td>27.10.2016</td>
+						<td>food</td>
+						<td>889.60</td>
+					</tr>
+					<tr>
+						<td>pay</td>
+						<td>800.00</td>
+						<td>26.10.2016</td>
+						<td>pay</td>
+						<td>912.00</td>
+					</tr>
+					<tr>
+						<td>car wash</td>
+						<td>-3.00</td>
+						<td>26.10.2016</td>
+						<td>car</td>
+						<td>115.00</td>
+					</tr>
+				</table>
+			</div>
+
+		</div>
+		<div class="formAccount">
+			<div class="nameOfForm">
+				<h3>Add income/outcome</h3>
+				<hr>
+			</div>
+			<form>
+				Name of action:<br>
+				<input type="text" name="name"><br>
+				Amount:<br>
+				<input type="number" value="0"  name="amount"><br>
+				Date:<br>
+				<input type="date" name="date"><br>
+				Type:<br>
+				<select>
+					<option value="car">car</option>
+					<option value="fun">fun</option>
+					<option value="food">food</option>
+					<option value="school">school</option>
+					<option value="pay">pay</option>
+				</select><br>
+				<input type="radio" name="radioAction" value="outcome" checked>Outcome<br>
+				<input type="radio" name="radioAction" value="income">Income<br>
+				<button class="addbtn">Add</button>
+
+			</form>
+		</div>
+		
+	</div>
+
+	
+
+</body>
+</html>

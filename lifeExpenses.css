@@ -13,12 +13,15 @@ body{
 .main{
 	float:left;
 	margin: 10px;
-	
+    background-color: #f1f1f1;
 	padding: 10px;
 	max-width: 1200px;
 	min-width: 500px; 
 	height: 700px;
 	border: 1px solid white;
+	border-radius: 10px;
+
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
 }
 
 .account{
@@ -26,35 +29,51 @@ body{
 	position: relative;
 	margin: 40px;
 	padding: 10px ;
+	border-radius: 10px;
 	width: 200px;
-	
-	height: 200px;
-	border: 1px solid white;
 	background-color: #375e7b;
 	color: white;
 	text-align: center;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
 }
-.goals{
-	float: left;
-	margin: 10px;
-	padding: 10px;
-	max-width: 300px;
-	height: 700px;
-	border: 1px solid white;
-}
-
-.goal{
-	float: left;
+.account1{
+	display: inline-block;
 	position: relative;
 	margin: 40px;
 	padding: 10px ;
-	width: 200px;
-	
-	height: 200px;
+	border-radius: 10px;
+	width: 400px;
+	background-color: #375e7b;
+	color: white;
+	text-align: center;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
+}
+.goals{
+
+
+	float: left;
+	margin: 10px;
+	padding: 20px;
+	min-width: 150px;
+	height: 700px;
 	border: 1px solid white;
+	border-radius: 10px;
+    background-color: #f1f1f1;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
+}
+
+.goal{
+	position: relative;
+	margin: 20px;
+	padding: 10px ;
+	width: 200px;
+	border-radius: 10px;
+	height: 200px;
 	background-color: #555;
 	color: white;
 	text-align: center;
+
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
 }
 
 .accbtn{
@@ -77,6 +96,7 @@ body{
 h4{
     text-decoration: underline;
 }
+/*
 
 .menubtn {
     background-color: #ffffff;
@@ -90,7 +110,6 @@ h4{
     margin: 30px;
 }
 
-/* The container <div> - needed to position the dropdown content */
 .menu {
 	float: left;
     position: relative;
@@ -100,7 +119,6 @@ h4{
 
 }
 
-/* Dropdown Content (Hidden by Default) */
 .menu-content {
     display: none;
     position: absolute;
@@ -110,7 +128,6 @@ h4{
 
 }
 
-/* Links inside the dropdown */
 .menu-content a {
     color: black;
     padding: 12px 16px;
@@ -118,19 +135,16 @@ h4{
     display: block;
 }
 
-/* Change color of dropdown links on hover */
 .menu-content a:hover {background-color: #375e7b; color: #ffffff}
 
-/* Show the dropdown menu on hover */
 .menu:hover .menu-content {
     display: block;
 }
 
-/* Change the background color of the dropdown button when the dropdown content is shown */
 .menu:hover .menubtn {
     background-color: #274256;
     color: #ffffff;
-}
+}*/
 
 ul {
 	float: left;
@@ -160,4 +174,63 @@ li a.active {
 li a:hover:not(.active) {
     background-color: #555;
     color: white;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 800px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.formAccount{
+	float: left;
+	margin: 10px;
+	padding: 20px;
+	min-width: 150px;
+	height: 700px;
+	border: 1px solid white;
+	border-radius: 10px;
+    background-color: #f1f1f1;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
+}
+
+input{
+	width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+select{
+	width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.addbtn {
+    width: 50%;
+    background-color:  #274256;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%
 }
