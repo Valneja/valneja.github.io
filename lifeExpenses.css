@@ -257,11 +257,12 @@ select{
     box-sizing: border-box;
 }
 .addbtn {
-    width: 90%;
+    width: 490px;
     background-color:  #274256;
     color: white;
     padding: 14px 20px;
     margin: 20px;
+  
     border: none;
     border-radius: 4px;
     cursor: pointer;

@@ -1,13 +1,19 @@
 .login{
-	position: relative;
-   margin: 30px auto;
-   padding: 10px;
+	overflow: hidden;
+    display: inline-block;
+    position: relative;
+   margin-left: auto;
+    margin-right: auto;
+    clear: both;
+    padding: 10px;
+    min-width: 280px;
    max-width: 400px;
    height: auto;
    border: 1px solid #4086AA;
    text-align: center;
    background-color: #ffffff;
-   box-shadow: 10px 10px 5px #274256;
+   border-radius: 10px;
+    box-shadow: 16px 16px 16px 0px rgba(0,0,0,0.7);
 }
 body{
 	background-image: url("./slike/3.jpg");
@@ -15,12 +21,22 @@ body{
 	background-position: center center;
 	background-attachment: fixed;
 	background-size: cover;
-
+    text-align: center;
 }
 .font{
 	font: italic bold 12px/30px Georgia, serif;
 }
 input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=email], select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
