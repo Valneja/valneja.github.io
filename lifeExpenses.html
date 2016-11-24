@@ -3,7 +3,7 @@
 <head>
 	<title>Life expenses</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<meta charset="utf-8">
 	<script src="./lifeExpenses.js" type="text/javascript"></script>
 	<link rel="stylesheet" type="text/css" href="./lifeExpenses.css">
 </head>
@@ -11,7 +11,7 @@
 	<header style="text-align:center">
 		
 		<a href="lifeExpenses.html">
-		<img src="./slike/logo1.png">
+		<img alt="logo" src="./slike/logo1.png">
 		</a>
 	</header>
 
@@ -36,7 +36,8 @@
 					<div class="acc-content">
 
 					Account credit:<br>
-					100&euro;
+					<noscript>100</noscript>
+					<div id="tvalue"> </div>
 					</div>
 					<button onClick="parent.location='transactionAcc.html'" class="accbtn">Manage</button>
 				</div>
@@ -45,7 +46,8 @@
 					<h4>Savings account</h4>
 					<div class="acc-content">
 					Account credit:<br>
-					540&euro;
+					<noscript>100</noscript>
+					<div id="svalue"></div>
 					</div>
 					<button onClick="parent.location='savingsAcc.html'" class="accbtn">Manage</button>
 				</div>
@@ -54,13 +56,15 @@
 				<h4>Wallet</h4>
 					<div class="acc-content">
 					Account credit:<br>
-					25&euro;
+					<noscript>100</noscript>
+					<div id="wvalue"></div>
 					</div>
 					<button onClick="parent.location='wallet.html'" class="accbtn">Manage</button>
 				</div>
 			</div>
-			<img class="slika" src="./slike/graf.jpg">
-
+			
+				<img alt="graf" class="slika" src="./slike/graf.jpg">
+			
 		</div>
 
 	</div>
@@ -72,18 +76,18 @@
 				<div class="goal-content">
 				<form>
 					Save:<br>
-					<input  type="number" id="valueMoney" required="required" name="value" placeholder="150&euro;"><br>
+					<input id="valueMoney" type="number" required="required" name="value" placeholder="150&euro;"><br>
 					
-					Until:<br>
-					<input id="valueDate" type="date" name="date"><br>
+					Until: <br>(example: 2016-12-30)<br>
+					<input id="valueDate" type="date" name="date"/><br>
 					
 				</form>
 				<button onclick="addgoal()" class="accbtn">Add</button>
 				</div>
 				
 			</div>
-			<div>
-			
+			<div></div>
+				<noscript>
 				<div id="1" class="goal">
 					<h4>Goal</h4>
 					<div class="goal-content">
@@ -104,7 +108,8 @@
 					</div>
 					<button  onclick="deletethis(2)" class="accbtn">Done</button>
 				</div>
-			</div>	
+				</noscript>
+			
 		</div>
 
 	</div>

@@ -22,6 +22,8 @@ body{
 	background-attachment: fixed;
 	background-size: cover;
     text-align: center;
+    font-family: verdana;
+    color: #555555;
 }
 .font{
 	font: italic bold 12px/30px Georgia, serif;

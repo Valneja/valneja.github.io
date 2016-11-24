@@ -217,12 +217,15 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    margin: 10px;
+    margin-right: 10px;
  }
 
 td, th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+    margin: 10px;
 }
 th{
 	background-color: #009933;
@@ -257,7 +260,7 @@ select{
     box-sizing: border-box;
 }
 .addbtn {
-    width: 490px;
+    width: 90%;
     background-color:  #274256;
     color: white;
     padding: 14px 20px;
@@ -355,4 +358,10 @@ float: left;
 
 .slika{
 	width: 90%
+}
+
+.platno{
+    border:1px solid black;
+    display: inline; 
+    background: #ffffff;
 }

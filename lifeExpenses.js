@@ -28,8 +28,66 @@ function checkPassword(){
 
 }
 */
+var idgoal = 0;
 
-var idgoal = 2;
+
+start();
+
+function start(){
+
+	var t = document.getElementById("tvalue");
+	var s = document.getElementById("svalue");
+	var w = document.getElementById("Wvalue");
+
+	
+	
+	var oReq = new XMLHttpRequest();
+	//oReq.addEventListener("load", goalsJson);
+	oReq.addEventListener("load", accsJson);
+	//oReq.open("GET", "goals.json");
+	oReq.open("GET", "accs.json");
+	oReq.responseType = "text";
+	oReq.send();
+	
+	
+
+	
+	
+	oReq = new XMLHttpRequest();
+	oReq.addEventListener("load", goalsJson);
+
+	oReq.open("GET", "goals.json");
+	//console.log(oReq);
+	oReq.responseType = "text";
+	oReq.send();
+	
+	
+}
+
+function goalsJson(event){
+	
+	goals = JSON.parse(this.responseText);
+
+	for(i in goals.goals){
+
+		idgoal++;
+		num = goals.goals[i].save;
+		date = goals.goals[i].until;
+		document.getElementById("idgoals").innerHTML += '<div id='+idgoal+' class="goal"><h4>Goal</h4><div class="goal-content">Save:<br>'+num+'&euro;<br>Until:<br>'+date+'</div><button onclick="deletethis('+idgoal+')" class="accbtn">Done</button></div>'
+
+	}
+}
+
+function accsJson(event) {
+	
+	values = JSON.parse(this.responseText);
+
+	document.getElementById("tvalue").innerHTML = values["t"]+" &euro;";
+	document.getElementById("svalue").innerHTML = values["s"]+" &euro;";
+	document.getElementById("wvalue").innerHTML = values["w"]+" &euro;";
+}
+
+
 
 function addgoal(){
 	idgoal++;
@@ -37,6 +95,21 @@ function addgoal(){
 	var date = document.getElementById("valueDate").value;
 	
 	if(num.length!=0 && date.length!=0){
+		
+		var oReq = new XMLHttpRequest();
+		
+		oReq.open("GET", "goals.json", false);
+		oReq.send(null);
+		var g = JSON.parse(oReq.responseText);
+		//console.log(idgoal);
+	
+		//var newJson = JSON.stringify(goals.push({save:999,until:2017-1-31}))
+		
+		g.goals[idgoal-1] = {save:99,date:"2016-12-20"};
+		
+		JSON.stringify(g);
+		//goals.goals[idgoal]["until"] = date;
+		//console.log(g);
 		document.getElementById("idgoals").innerHTML += '<div id='+idgoal+' class="goal"><h4>Goal</h4><div class="goal-content">Save:<br>'+num+'&euro;<br>Until:<br>'+date+'</div><button onclick="deletethis('+idgoal+')" class="accbtn">Done</button></div>'
 	}
 	/*else{
