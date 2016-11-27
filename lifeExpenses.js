@@ -143,3 +143,82 @@ function hide(){
  function isElementHidden (element) {
     return window.getComputedStyle(element, null).getPropertyValue('display') === 'none';
   }
+
+  
+var podatki = [100,350,260,480,120,1200,1000,400,530,330,100,230];
+var max = Math.max.apply(Math, podatki);
+function graph(){
+
+ 	
+
+ 	var canvas = document.getElementById("platno");
+ 	
+ 	var context = canvas.getContext("2d");
+
+
+
+
+ 	var w = canvas.width-40;
+	var h = canvas.height-40;
+	//console.log("visina h "+h+" sirina w "+w);
+
+	context.clearRect(0, 0, canvas.width, canvas.height);
+
+	context.strokeStyle = "#000000";
+
+	context.beginPath();
+
+	context.moveTo(20, h+20);
+	context.lineTo(w+40, h+20);
+	context.moveTo(20, h+20);
+	context.lineTo(20, 20);
+
+	var w1 = 17;
+	var w2=w1;
+	h2=h+20;
+	y=0;
+
+	context.font="12px Arial";
+	context.fillText("Transaction account credit last 12 months",20 ,10);
+
+	context.font="11px Arial";
+	context.fillText("months",w/2 ,h+39);
+
+	context.font="8px Arial";
+	
+
+	
+
+	for(var i = 1; i <= 12; i++){
+		context.fillText(i, w1, h+30);
+		context.fillText(y, w2-15, h2);
+		h2-=h/12;
+		y+=max/12;
+		console.log(y)
+		w1+=w/11;
+	}
+
+	//context.rotate(-Math.PI/2);
+	//context.fillText("money", 20, 20);
+	//context.rotate(Math.PI/2);
+	context.stroke();
+
+	context.strokeStyle = "#375e7b";
+	context.beginPath();
+
+	for(var i=0; i < podatki.length-1; i++){
+		//console.log(i);
+		//console.log(max);
+		context.moveTo(20+(i*w/11), h+20-(h*podatki[i]/max));
+		//console.log(h-(h*podatki[i]/max)+" "+(i*w/11));
+
+		i++;
+		//console.log(i);
+		context.lineTo((20+(i)*w/11), h+20-(h*podatki[i]/max));
+		//console.log(h-(h*podatki[i]/max)+" "+((i)*w/11));
+		i--;
+
+	}
+	
+	context.stroke();
+ }

@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="./lifeExpenses.css">
 	
 </head>
-<body>
+<body onload="graph()">
 	<header style="text-align:center">
 		
 		<a href="lifeExpenses.html">
@@ -63,9 +63,14 @@
 					<button onClick="parent.location='wallet.html'" class="accbtn">Manage</button>
 				</div>
 			</div>
-			
+			<noscript>
 				<img alt="graf" class="slika" src="./slike/graf.jpg">
-			
+			</noscript>
+			<div class="canvas">
+				<canvas id="platno" class="platno">
+				No canvas suppport in your browser.
+				</canvas>
+			</div>
 		</div>
 
 	</div>

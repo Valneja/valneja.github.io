@@ -360,8 +360,17 @@ float: left;
 	width: 90%
 }
 
+
+.canvas{
+    width: 100%;
+    text-align: center;
+}
+
 .platno{
-    border:1px solid black;
+    border:1px solid #375e7b; 
     display: inline; 
-    background: #ffffff;
+    background: white;
+    width: 90%;
+    height: 90%;
+    margin: 10px;
 }
