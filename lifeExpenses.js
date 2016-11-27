@@ -144,8 +144,10 @@ function hide(){
     return window.getComputedStyle(element, null).getPropertyValue('display') === 'none';
   }
 
-  
+
 var podatki = [100,350,260,480,120,1200,1000,400,530,330,100,230];
+var podatki2 = [500,100,300,780,550,1000,800,1100,700,200,400,100];
+
 var max = Math.max.apply(Math, podatki);
 function graph(){
 
@@ -179,7 +181,7 @@ function graph(){
 	y=0;
 
 	context.font="12px Arial";
-	context.fillText("Transaction account credit last 12 months",20 ,10);
+	context.fillText("Accounts credit last 12 months",40 ,10);
 
 	context.font="11px Arial";
 	context.fillText("months",w/2 ,h+39);
@@ -215,6 +217,25 @@ function graph(){
 		i++;
 		//console.log(i);
 		context.lineTo((20+(i)*w/11), h+20-(h*podatki[i]/max));
+		//console.log(h-(h*podatki[i]/max)+" "+((i)*w/11));
+		i--;
+
+	}
+	
+	context.stroke();
+
+	context.strokeStyle = "#79c804";
+	context.beginPath();
+
+	for(var i=0; i < podatki2.length-1; i++){
+		//console.log(i);
+		//console.log(max);
+		context.moveTo(20+(i*w/11), h+20-(h*podatki2[i]/max));
+		//console.log(h-(h*podatki[i]/max)+" "+(i*w/11));
+
+		i++;
+		//console.log(i);
+		context.lineTo((20+(i)*w/11), h+20-(h*podatki2[i]/max));
 		//console.log(h-(h*podatki[i]/max)+" "+((i)*w/11));
 		i--;
 
