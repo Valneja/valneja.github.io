@@ -1,0 +1,14 @@
+{
+	"name":"lifeExpenses",
+	"version":"0.0.1",
+	"dependencies":{
+		"express": "latest",
+	    "connect": "latest",
+	    "path": "latest",
+	    "pg": "latest",
+	    "html": "latest",
+	    "express-session":"latest",
+	    "formidable": "latest"
+	}
+
+}
