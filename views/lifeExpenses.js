@@ -28,6 +28,8 @@ function checkPassword(){
 
 }
 */
+var xhttp = new XMLHttpRequest();
+
 var idgoal = 0;
 
 
@@ -40,7 +42,7 @@ function start(){
 	var w = document.getElementById("Wvalue");
 
 	
-	
+	/*
 	var oReq = new XMLHttpRequest();
 	//oReq.addEventListener("load", goalsJson);
 	oReq.addEventListener("load", accsJson);
@@ -61,7 +63,7 @@ function start(){
 	oReq.responseType = "text";
 	oReq.send();
 	
-	
+	*/
 }
 
 function goalsJson(event){

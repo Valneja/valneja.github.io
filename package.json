@@ -8,7 +8,8 @@
 	    "pg": "latest",
 	    "html": "latest",
 	    "express-session":"latest",
-	    "formidable": "latest"
+	    "formidable": "latest",
+	    "ejs": "latest"
 	}
 
 }

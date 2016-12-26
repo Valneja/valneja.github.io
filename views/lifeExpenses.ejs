@@ -38,7 +38,7 @@
 
 					Account credit:<br>
 					<noscript>100</noscript>
-					<div id="tvalue"> </div>
+					<div id="tvalue"><%= racuni[0].credit %>&euro; </div>
 					</div>
 					<button onClick="parent.location='transactionAcc.html'" class="accbtn">Manage</button>
 				</div>
@@ -48,7 +48,7 @@
 					<div class="acc-content">
 					Account credit:<br>
 					<noscript>100</noscript>
-					<div id="svalue"></div>
+					<div id="svalue"><%= racuni[1].credit %>&euro;</div>
 					</div>
 					<button onClick="parent.location='savingsAcc.html'" class="accbtn">Manage</button>
 				</div>
@@ -58,7 +58,7 @@
 					<div class="acc-content">
 					Account credit:<br>
 					<noscript>100</noscript>
-					<div id="wvalue"></div>
+					<div id="wvalue"><%= racuni[2].credit %>&euro;</div>
 					</div>
 					<button onClick="parent.location='wallet.html'" class="accbtn">Manage</button>
 				</div>
@@ -80,19 +80,37 @@
 			<div id="formgoal" class="account">
 				<h4>Goal</h4>
 				<div class="goal-content">
-				<form>
+				<form action="/goal" method="post">
 					Save:<br>
 					<input id="valueMoney" type="number" required="required" name="value" placeholder="150&euro;"><br>
 					
 					Until: <br>(example: 2016-12-30)<br>
 					<input id="valueDate" type="date" name="date"/><br>
 					
+					<input id="loginbtn" class="accbtn" type="submit" value="Add">
 				</form>
-				<button onclick="addgoal()" class="accbtn">Add</button>
+				
 				</div>
 				
 			</div>
+			<% for(var i = 0; i < cilji.length; i++){ %>
+				<div id="<%= cilji[i].goal_id %>" class="goal">
+					<h4>Goal</h4>
+					<div class="goal-content">
+					Save:<br>
+					<%= cilji[i].amount %>&euro;<br>
+					Until:<br>
+					<%= cilji[i].date %> <br>
+					</div>
+					<form action="/deleteGoal" method="post">
+						<input type="hidden" value="<%= cilji[i].goal_id %>" name="id">
+						<input id="done" class="accbtn" type="submit" value="Done">
+					</form>
+					
+					</div>
+			<% } %>
 			<div></div>
+			
 				<noscript>
 				<div id="1" class="goal">
 					<h4>Goal</h4>
