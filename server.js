@@ -4,7 +4,7 @@ if (!process.env.PORT) {
 }
 
 var formidable = require("formidable");
-
+var path = require('path');
 var express = require('express'),
 	app = express();
 
@@ -36,20 +36,19 @@ app.post('/prijava', function(zahteva, odgovor) {
 	//zahteva.send('hi');
 	var form = new formidable.IncomingForm();
 	form.parse(zahteva, function(error, podatki){
-		console.log(podatki.userName);
-		console.log(podatki.password);
+		//console.log(podatki.userName);
+		//console.log(podatki.password);
 		client.query("SELECT * FROM expenses.users WHERE username = $1 AND password = $2", [podatki.userName, podatki.password], function(err, rezultat){
-				console.log(rezultat);
+				//console.log(rezultat);
 				if(rezultat.rows.length != 0){
 					console.log("prijava id "+ rezultat.rows[0].user_id);
-					zahteva.session.ime = rezultat.rows[0].username;
-					zahteva.session.geslo = rezultat.rows[0].password;
+					
 					zahteva.session.id = rezultat.rows[0].user_id;
 	    			odgovor.redirect('/lifeExpenses.html');
 				}
 				else{
 					
-					console.log("Napacno ime ali geslo");
+					console.log("Wrong username or password!");
 					odgovor.redirect('/');
 				}
 		});
@@ -57,9 +56,54 @@ app.post('/prijava', function(zahteva, odgovor) {
 	});
 });
 
+app.post('/registracija', function(zahteva, odgovor){
+	var form = new formidable.IncomingForm();
+	var obstaja = 0;
+	form.parse(zahteva, function(error, podatki){
+		console.log(podatki.userName);
+		console.log(podatki.pass);
+		console.log(podatki.pass2);
+		if(podatki.pass2 == podatki.pass){		
+			client.query("INSERT INTO expenses.users (username, password, email) VALUES ($1,$2,$3)", [podatki.userName, podatki.pass, podatki.email], function(zahteva, podatki){
+					//console.log("zahteva: "+zahteva);
+					//console.log("odgovor: "+odgovor);
+					if(zahteva){
+						console.log("User already exists");
+						
+						odgovor.redirect('/register.html');
+					}
+					else{
+						console.log("Uspesna registracija!");
+						
+						odgovor.redirect('/');
+					}
+			});
+		}
+		else{
+			console.log("Passwords do not match!");
+		}
+		
+	});
+})
+app.get('/odjava', function(zahteva, odgovor){
+
+	zahteva.session.id = null;
+	console.log("odjava");
+	odgovor.redirect('/');
+})
+
+app.get('/lifeExpenses', function(zahteva,odgovor){
+
+	console.log("prijava id "+ zahteva.session.id);
+	if(zahteva.session.id == null){
+		odgovor.redirect('/');
+	}
+})
+
 
 app.get('/', function(zahteva, odgovor) {
-    odgovor.redirect('/index');
+	console.log("session id "+ zahteva.session.id);
+    odgovor.redirect('/index.html');
 })
 
 //___________________________________________________________
