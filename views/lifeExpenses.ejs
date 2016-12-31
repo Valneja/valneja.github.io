@@ -21,10 +21,22 @@
 	<div class="col-2 col-m-12">
 		<div>
 			<ul>
-			  <li><a class="active" href="lifeExpenses.html">Home</a></li>
-			  <li><a href="transactionAcc.html">Transaction account</a></li>
-			  <li><a href="savingsAcc.html">Savings account</a></li>
-			  <li><a href="wallet.html">Wallet</a></li>
+			  <li><a class="active" href="/lifeExpenses">Home</a></li>
+			  <li>
+			  	<form action='/transaction' method="post">
+			  		<a onclick="parentNode.submit();">Transaction account</a>
+			  	</form>
+			  </li>
+			  <li>
+			  	<form action='/savings' method="post">
+			  		<a onclick="parentNode.submit();">Savings account</a>
+			  	</form>
+			  </li>
+			  <li>
+			  	<form action='/wallet' method="post">
+			  		<a onclick="parentNode.submit();">Wallet</a>
+			  	</form>
+			  </li>
 			  <li><a href="/odjava">Log out</a></li>
 			</ul>
 		</div>
@@ -40,7 +52,10 @@
 					<noscript>100</noscript>
 					<div id="tvalue"><%= racuni[0].credit %>&euro; </div>
 					</div>
-					<button onClick="parent.location='transactionAcc.html'" class="accbtn">Manage</button>
+					<form action="/transaction" method="post">
+						<input id="done" class="accbtn" type="submit" value="Manage">
+					</form>
+					
 				</div>
 
 				<div class="account">
@@ -50,7 +65,9 @@
 					<noscript>100</noscript>
 					<div id="svalue"><%= racuni[1].credit %>&euro;</div>
 					</div>
-					<button onClick="parent.location='savingsAcc.html'" class="accbtn">Manage</button>
+					<form action="/savings" method="post">
+						<input id="done" class="accbtn" type="submit" value="Manage">
+					</form>
 				</div>
 
 				<div class="account">
@@ -60,7 +77,9 @@
 					<noscript>100</noscript>
 					<div id="wvalue"><%= racuni[2].credit %>&euro;</div>
 					</div>
-					<button onClick="parent.location='wallet.html'" class="accbtn">Manage</button>
+					<form action="/wallet" method="post">
+						<input id="done" class="accbtn" type="submit" value="Manage">
+					</form>
 				</div>
 			</div>
 			<noscript>

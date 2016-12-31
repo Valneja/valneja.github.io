@@ -1,15 +1,15 @@
 {
-	"name":"lifeExpenses",
-	"version":"0.0.1",
-	"dependencies":{
-		"express": "latest",
-	    "connect": "latest",
-	    "path": "latest",
-	    "pg": "latest",
-	    "html": "latest",
-	    "express-session":"latest",
-	    "formidable": "latest",
-	    "ejs": "latest"
-	}
-
+  "name": "lifeExpenses",
+  "version": "0.0.1",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "connect": "latest",
+    "ejs": "latest",
+    "express": "latest",
+    "express-session": "latest",
+    "formidable": "latest",
+    "html": "latest",
+    "path": "latest",
+    "pg": "latest"
+  }
 }

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Life expenses</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="./lifeExpenses.css">
+</head>
+<body>
+	<header style="text-align:center">
+		
+		<a href="lifeExpenses.html">
+		<img alt="logo" src="./slike/logo1.png">
+		</a>
+	</header>
+
+<div class="row">
+
+	<div class="col-2 col-m-12">
+		<div>
+			<ul>
+			  <li><a href="/lifeExpenses">Home</a></li>
+			  <li>
+			  	<form action='/transaction' method="post">
+			  		<a onclick="parentNode.submit();">Transaction account</a>
+			  	</form>
+			  </li>
+			  <li>
+			  	<form action='/savings' method="post">
+			  		<a onclick="parentNode.submit();">Savings account</a>
+			  	</form>
+			  </li>
+			  <li>
+			  	<form action='/wallet' method="post">
+			  		<a class="active" onclick="parentNode.submit();">Wallet</a>
+			  	</form>
+			  </li>
+			  <li><a href="/odjava">Log out</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-5 col-m-12">
+		<div class="main">
+				<div class="account">
+					<h4>Wallet</h4>
+					<div class="acc-content">
+						<div>
+						Balance:<br>
+						<noscript> 25€ <br><br></noscript>
+						<%= credit %> <br><br>
+						Tranfer to:
+						</div>
+						<form action="/transfer" method="post">
+						<select name = "to">
+							<option value="savings">Savings account</option>
+							<option value="transaction">Transaction account</option>
+						
+						</select><br>
+						<input type="hidden" value="3" name="accid">
+						<input type="hidden" value="wallet" name="accName">
+							Amount:<br>
+							<input type="number" value="0.00" step=0.01 min=0 name="amount"><br>
+							<input class="accbtn" type="submit" value="Transfer">
+						</form>
+						</div>	
+				</div>
+				
+				<table id="table">
+					<tr>
+						<th>Name (type)</th>
+						<th>Amount (€)</th>
+						<th>Date</th>
+					</tr>
+					<tr>
+						<td>grosery (food)</td>
+						<td>-26.40</td>
+						<td>27.10.2016</td>
+					</tr>
+					<tr>
+						<td>pay (pay)</td>
+						<td>800.00</td>
+						<td>26.10.2016</td>
+					</tr>
+					<tr>
+						<td>car wash (car)</td>
+						<td>-3.00</td>
+						<td>26.10.2016</td>
+					</tr>
+				</table>
+				
+			</div>
+
+		</div>
+
+	<div class="col-5 col-m-12">
+		
+				<div class="main">
+					<div class="formAccount">
+						<div class="nameOfForm">
+							<h3>Add income/outcome</h3>
+							<hr>
+						</div>
+						<form action="/addAction" method="post">
+							Name of action:<br>
+							<input type="text" name="name"><br>
+							Amount: (example: 13,44)<br>
+							<input type="number" value="0.00" step=0.01 min=0 name="amount"><br>
+							Date:<br>
+							<input type="date" name="date"><br>
+							Type:<br>
+							<select>
+								<option value="car">car</option>
+								<option value="fun">fun</option>
+								<option value="food">food</option>
+								<option value="school">school</option>
+								<option value="pay">pay</option>
+							</select><br>
+							<input type="radio" name="radioAction" value="outcome" checked>Outcome<br>
+							<input type="radio" name="radioAction" value="income">Income<br>
+							<input type="hidden" value="3" name="accid">
+
+							<input class="addbtn" type="submit" value="Add">
+
+						</form>
+					</div>
+				</div>
+				
+			</div>	
+		</div>
+
+
+
+</body>
+</html>
