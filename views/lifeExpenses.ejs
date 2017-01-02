@@ -7,6 +7,17 @@
 	<script src="./lifeExpenses.js" type="text/javascript"></script>
 	<link rel="stylesheet" type="text/css" href="./lifeExpenses.css">
 	
+
+<script type="text/javascript">
+	var s;
+	var s2;
+     window.addEventListener('load', function(){
+         s = JSON.parse('<%- JSON.stringify(tab1) %>');
+         s2 = JSON.parse('<%- JSON.stringify(tab2) %>');
+         
+
+     });
+</script>
 </head>
 <body onload="graph()">
 	<header style="text-align:center">
@@ -85,11 +96,13 @@
 			<noscript>
 				<img alt="graf" class="slika" src="./slike/graf.jpg">
 			</noscript>
+			
 			<div class="canvas">
 				<canvas id="platno" class="platno">
 				No canvas suppport in your browser.
 				</canvas>
 			</div>
+			
 		</div>
 
 	</div>
@@ -119,7 +132,7 @@
 					Save:<br>
 					<%= cilji[i].amount %>&euro;<br>
 					Until:<br>
-					<%= cilji[i].date %> <br>
+					<%= cilji[i].date.getDate() %>.<%= cilji[i].date.getMonth()+1 %>.<%= cilji[i].date.getFullYear() %> <br>
 					</div>
 					<form action="/deleteGoal" method="post">
 						<input type="hidden" value="<%= cilji[i].goal_id %>" name="id">

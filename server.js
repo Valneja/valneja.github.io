@@ -181,11 +181,23 @@ app.get('/lifeExpenses', function(zahteva,odgovor){
 			
 			//console.log(cilji.rows);
 			client.query("SELECT * FROM expenses.account WHERE user_id = $1 ORDER BY id ASC", [zahteva.session.id1], function(err, racuni){
-				
-				//console.log(racuni.rows);
+				client.query("SELECT value FROM expenses.action WHERE account_id = 1 AND user_id = $1 AND effect = -1 ORDER by action_id DESC LIMIT 12", [zahteva.session.id1], function(e, p){
+					client.query("SELECT value FROM expenses.action WHERE account_id = 1 AND user_id = $1 AND effect = 1 ORDER by action_id DESC LIMIT 12", [zahteva.session.id1], function(e1, p1){
+						console.log(p.rows.length);
+						var tab = [0,0,0,0,0,0,0,0,0,0,0,0];
+						var tab2 = [0,0,0,0,0,0,0,0,0,0,0,0];
+						for(var i = 0; i < p.rows.length; i++){
+							tab[i] = p.rows[i].value;
+						}
 
+						for(var i = 0; i < p1.rows.length; i++){
+							tab2[i] = p1.rows[i].value;
+						}
 
-				odgovor.render('lifeExpenses', {cilji: cilji.rows, racuni: racuni.rows});	
+						console.log(tab);
+						odgovor.render('lifeExpenses', {cilji: cilji.rows, racuni: racuni.rows, tab1: tab, tab2: tab2});
+					});
+				});	
 			});
 			//odgovor.render('lifeExpenses', {cilji: rezultat.rows});	
 		});
@@ -213,20 +225,27 @@ app.post('/wallet', function(zahteva,odgovor){
 });
 
 app.get('/transactionAcc', function(zahteva,odgovor){
-	client.query("SELECT * FROM expenses.account WHERE id = 1", function(err, podatki){
-		odgovor.render('transactionAcc', {credit: podatki.rows[0].credit});
+	client.query("SELECT * FROM expenses.account WHERE id = 1 AND user_id = $1", [zahteva.session.id1], function(err, podatki){
+		client.query("SELECT * FROM expenses.action WHERE account_id = 1 AND user_id = $1 ORDER by action_id DESC LIMIT 10", [zahteva.session.id1], function(e, p){
+			odgovor.render('transactionAcc', {credit: podatki.rows[0].credit, actions: p.rows});
+		})
+		
 	});
 });
 
 app.get('/savingsAcc', function(zahteva,odgovor){
-	client.query("SELECT * FROM expenses.account WHERE id = 2", function(err, podatki){
-		odgovor.render('savingsAcc', {credit: podatki.rows[0].credit});
+	client.query("SELECT * FROM expenses.account WHERE id = 2 AND user_id = $1", [zahteva.session.id1], function(err, podatki){
+		client.query("SELECT * FROM expenses.action WHERE account_id = 2 AND user_id = $1 ORDER by action_id DESC LIMIT 10", [zahteva.session.id1], function(e, p){
+			odgovor.render('savingsAcc', {credit: podatki.rows[0].credit, actions: p.rows});
+		})
 	});
 });
 
 app.get('/wallet', function(zahteva,odgovor){
-	client.query("SELECT * FROM expenses.account WHERE id = 3", function(err, podatki){
-		odgovor.render('wallet', {credit: podatki.rows[0].credit});
+	client.query("SELECT * FROM expenses.account WHERE id = 3 AND user_id = $1", [zahteva.session.id1], function(err, podatki){
+		client.query("SELECT * FROM expenses.action WHERE account_id = 3 AND user_id = $1 ORDER by action_id DESC LIMIT 10", [zahteva.session.id1], function(e, p){
+			odgovor.render('wallet', {credit: podatki.rows[0].credit, actions: p.rows});
+		})
 	});
 });
 
@@ -254,7 +273,7 @@ app.post('/transfer', function(zahteva,odgovor){
 			client.query("UPDATE expenses.account SET credit=credit+$1 WHERE id = $2 AND user_id = $3", [vrednost,idTo,zahteva.session.id1], function(err,rezultat){
 				console.log(zahteva.session.id1);
 				client.query("INSERT INTO expenses.action (name,type,date,effect,value,account_id, user_id) VALUES ($1,$2,$3,$4,$5,$6,$7)", [imeFrom, "transaction", d, 1, vrednost, idTo, zahteva.session.id1], function(e,r){
-					client.query("INSERT INTO expenses.action (name,type,date,effect,value,account_id, user_id) VALUES ($1,$2,$3,$4,$5,$6,$7)", [imeTo, "transaction", d, 0, vrednost, idFrom, zahteva.session.id1], function(e1,r1){
+					client.query("INSERT INTO expenses.action (name,type,date,effect,value,account_id, user_id) VALUES ($1,$2,$3,$4,$5,$6,$7)", [imeTo, "transaction", d, -1, vrednost, idFrom, zahteva.session.id1], function(e1,r1){
 						if(err ){
 							console.log("Napaka pri transakciji "+err);
 						}
@@ -300,14 +319,17 @@ app.post('/addAction', function(zahteva, odgovor){
 		//console.log("amount "+podatki.amount);
 		var vrednost = podatki.amount;
 		var id = podatki.accid;
-		var income=0;
+		var income = -1;
+		var type = podatki.tip;
 		if(podatki.radioAction == "income")
 			income=1;
-		console.log("income= "+ income);
-		client.query("INSERT INTO expenses.action (name,type,date,effect,value,account_id) VALUES ($1,$2,$3,$4,$5,$6)", [podatki.name, podatki.type, podatki.date, income, podatki.amount, podatki.accid], function(err, podatki){
-			console.log("Poteka transakcija");
+		//console.log("income= "+ income);
+		//console.log("type: "+podatki.tip);
+		client.query("INSERT INTO expenses.action (name,type,date,effect,value,account_id,user_id) VALUES ($1,$2,$3,$4,$5,$6,$7)", [podatki.name, type, podatki.date, income, podatki.amount, podatki.accid, zahteva.session.id1], function(err, podatki){
+			//console.log("Poteka transakcija");
+
 			if(income == 1 && err == null){
-				console.log("pristej amount "+vrednost);
+				//console.log("pristej amount "+vrednost);
 				client.query("UPDATE expenses.account SET credit = credit+$1 WHERE account_id = $2", [vrednost, id], function(napaka, vsebina){
 					if (napaka) {
 						console.log("Napaka pri posodabljanju stanja na racunu: "+ napaka);
@@ -331,7 +353,7 @@ app.post('/addAction', function(zahteva, odgovor){
 			
 				});
 			}
-			else if(income == 0 && err == null){
+			else if(income == -1 && err == null){
 				
 				//console.log("odstej amount "+vrednost);
 				//
@@ -343,20 +365,20 @@ app.post('/addAction', function(zahteva, odgovor){
 					console.log("Posodobljen racun");
 					console.log("odgovor akcije: "+ podatki);
 					console.log("err akcije: "+ err);*/
-					console.log("id "+id);
+					//console.log("id "+id);
 					if(id == 1){
-						console.log("1");
+						//console.log("1");
 						odgovor.redirect('/transactionAcc');
 					}
 						
 						
 					if(id == 2){
-						console.log("2");
+						//console.log("2");
 						odgovor.redirect('/savingsAcc');
 					}
 						
 					if(id == 3){
-						console.log("3");
+						//console.log("3");
 						odgovor.redirect('/wallet');
 					}
 						
@@ -368,6 +390,7 @@ app.post('/addAction', function(zahteva, odgovor){
 		});
 	});
 });
+
 
 
 

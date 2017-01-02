@@ -35,6 +35,7 @@ var idgoal = 0;
 
 start();
 
+
 function start(){
 
 	var t = document.getElementById("tvalue");
@@ -89,7 +90,7 @@ function accsJson(event) {
 	document.getElementById("wvalue").innerHTML = values["w"]+" &euro;";
 }
 
-
+/*
 
 function addgoal(){
 	idgoal++;
@@ -117,11 +118,12 @@ function addgoal(){
 	/*else{
 		alert("Enter all fields");
 	}*/
-}
+//}
+/*
 function deletegoal(){
 	var element = document.getElementById("goal");
 	element.last().remove();
-}
+}*/
 function deletethis(idgoal){
 	var element = document.getElementById(idgoal);
 	element.remove();
@@ -147,19 +149,32 @@ function hide(){
   }
 
 
-var podatki = [100,350,260,480,120,1200,1000,400,530,330,100,230];
-var podatki2 = [500,100,300,780,550,1000,800,1100,700,200,400,100];
+//var podatki = [100,350,260,480,120,1200,1000,400,530,330,100,230];
+//var podatki2 = [500,100,300,780,550,1000,800,1100,700,200,400,100];
 
-var max = Math.max.apply(Math, podatki);
+//var max = Math.max.apply(Math, podatki2);
+//var max = 1200;
 function graph(){
-
- 	
+	console.log(s);
+	console.log(s2);
+	podatki2 = s2;
+	podatki = s;
+	//console.log("podatki: "+podatki);
+	vecji = [0,0];
+	vecji[0] = Math.max.apply(Math, podatki);
+	vecji[1] = Math.max.apply(Math, podatki2);
+	max = Math.max.apply(Math, vecji);
+	console.log("max: "+max);
 
  	var canvas = document.getElementById("platno");
  	
  	var context = canvas.getContext("2d");
 
-
+ 	canvas.width  = 500;
+	canvas.height = 250;
+	canvas.style.width  = '1000';
+	canvas.style.height = '500';
+	
 
 
  	var w = canvas.width-40;
@@ -183,10 +198,10 @@ function graph(){
 	y=0;
 
 	context.font="12px Arial";
-	context.fillText("Accounts credit last 12 months",40 ,10);
+	context.fillText("Transaction acc credit last 12 times",40 ,10);
 
 	context.font="11px Arial";
-	context.fillText("months",w/2 ,h+39);
+	context.fillText("inputs: red-outcome, green-income",w/3 ,h+39);
 
 	context.font="8px Arial";
 	
@@ -197,8 +212,8 @@ function graph(){
 		context.fillText(i, w1, h+30);
 		context.fillText(y, w2-15, h2);
 		h2-=h/12;
-		y+=max/12;
-		console.log(y)
+		y+=Math.round(max/12);
+		//console.log(y)
 		w1+=w/11;
 	}
 
@@ -207,12 +222,13 @@ function graph(){
 	//context.rotate(Math.PI/2);
 	context.stroke();
 
-	context.strokeStyle = "#375e7b";
+	//context.strokeStyle = "#375e7b";
+	context.strokeStyle = "#ff0000";
 	context.beginPath();
 
 	for(var i=0; i < podatki.length-1; i++){
 		//console.log(i);
-		//console.log(max);
+		//console.log(podatki[i]);
 		context.moveTo(20+(i*w/11), h+20-(h*podatki[i]/max));
 		//console.log(h-(h*podatki[i]/max)+" "+(i*w/11));
 

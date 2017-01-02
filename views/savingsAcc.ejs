@@ -74,6 +74,14 @@
 						<th>Amount (€)</th>
 						<th>Date</th>
 					</tr>
+					<% for(var i = 0; i < actions.length; i++){ %>
+						<tr> 
+							<td><%= actions[i].name %> (<%= actions[i].type %>)</td>
+							<td><%= actions[i].effect*actions[i].value %> </td>
+							<td><%= actions[i].date.getDate() %>.<%= actions[i].date.getMonth()+1 %>.<%= actions[i].date.getFullYear() %> </td>
+						</tr> 
+					<% } %>
+					<noscript>
 					<tr>
 						<td>grosery (food)</td>
 						<td>-26.40</td>
@@ -89,6 +97,7 @@
 						<td>-3.00</td>
 						<td>26.10.2016</td>
 					</tr>
+					</noscript>
 				</table>
 				
 			</div>
@@ -111,12 +120,13 @@
 							Date:<br>
 							<input type="date" name="date"><br>
 							Type:<br>
-							<select>
-								<option value="car">car</option>
-								<option value="fun">fun</option>
-								<option value="food">food</option>
-								<option value="school">school</option>
-								<option value="pay">pay</option>
+							<select name="tip">
+								<option name="car" value="car">car</option>
+								<option name="fun" value="fun">fun</option>
+								<option name="food" value="food">food</option>
+								<option name="school" value="school">school</option>
+								<option name="pay" value="pay">pay</option>
+								<option name="home" value="home">home</option>
 							</select><br>
 							<input type="radio" name="radioAction" value="outcome" checked>Outcome<br>
 							<input type="radio" name="radioAction" value="income">Income<br>
