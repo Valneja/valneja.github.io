@@ -3,7 +3,7 @@ if (!process.env.PORT) {
     process.env.PORT = 8080;
 }
 
-
+var bcrypt = require('bcrypt-nodejs');
 
 var formidable = require("formidable");
 var path = require('path');
@@ -45,7 +45,14 @@ app.use(
 );
 
 //__________________________________________________________
-
+var sporocilo = "";
+var winston = require('winston');
+var logger = new (winston.Logger)({
+    transports: [
+      new (winston.transports.Console)(),
+      new (winston.transports.File)({ filename: 'info.log' })
+    ]
+  });
 
 app.post('/prijava', function(zahteva, odgovor) {
 	//zahteva.send('hi');
@@ -53,19 +60,26 @@ app.post('/prijava', function(zahteva, odgovor) {
 	form.parse(zahteva, function(error, podatki){
 		//console.log(podatki.userName);
 		//console.log(podatki.password);
-		client.query("SELECT * FROM expenses.users WHERE username = $1 AND password = $2", [podatki.userName, podatki.password], function(err, rezultat){
+
+		client.query("SELECT * FROM expenses.users WHERE username = $1", [podatki.userName], function(err, rezultat){
 				//console.log(rezultat);
-				if(rezultat.rows.length != 0){
-					console.log("prijava id "+ rezultat.rows[0].user_id);
-					
-					zahteva.session.id1 = rezultat.rows[0].user_id;
-	    			odgovor.redirect('/lifeExpenses');
-				}
-				else{
-					
-					console.log("Wrong username or password!");
-					odgovor.redirect('/');
-				}
+			if(rezultat.rows.length != 0 && bcrypt.compareSync(podatki.password, rezultat.rows[0].password)){
+			
+			
+				//console.log("prijava id "+ rezultat.rows[0].user_id);
+				
+				zahteva.session.id1 = rezultat.rows[0].user_id;
+				zahteva.session.role = rezultat.rows[0].pro;
+				//console.log("pro: "+zahteva.session.role);
+    			odgovor.redirect('/lifeExpenses');
+			}
+			else{
+				logger.info('Wrong username or password!');
+
+				//console.log("Wrong username or password!");
+				odgovor.redirect('/');
+			}
+			
 		});
 		
 	});
@@ -79,27 +93,27 @@ app.post('/registracija', function(zahteva, odgovor){
 	var form = new formidable.IncomingForm();
 	var obstaja = 0;
 	form.parse(zahteva, function(error, podatki){
-		//console.log(podatki.userName);
-		//console.log(podatki.pass);
-		//console.log(podatki.pass2);
+
 		var userName= podatki.userName;
-		if(podatki.pass2 == podatki.pass){		
-			client.query("INSERT INTO expenses.users (username, password, email) VALUES ($1,$2,$3)", [podatki.userName, podatki.pass, podatki.email], function(zahteva, podatki){
+		if(podatki.pass2 == podatki.pass){	
+			var cryptedPass = bcrypt.hashSync(podatki.pass);	
+			client.query("INSERT INTO expenses.users (username, password, email, pro) VALUES ($1,$2,$3,$4)", [podatki.userName, cryptedPass, podatki.email, "false"], function(zahteva, podatki){
 				client.query("SELECT * FROM expenses.users WHERE username = $1", [userName], function(e,r){
 					
 					client.query("INSERT INTO expenses.account (user_id, name, credit, id) VALUES ($1,$2,$3,$4)", [r.rows[0].user_id, "transaction", 0, 1], function(e1,r1){
 						client.query("INSERT INTO expenses.account (user_id, name, credit, id) VALUES ($1,$2,$3,$4)", [r.rows[0].user_id, "savings", 0, 2], function(e2,r2){
 							client.query("INSERT INTO expenses.account (user_id, name, credit, id) VALUES ($1,$2,$3,$4)", [r.rows[0].user_id, "wallet", 0, 3], function(e3,r3){
 								if(zahteva){
-									console.log("User already exists");
-									
+									//console.log("User already exists");
+									logger.info('User already exists');
 									odgovor.redirect('/register');
 								}
 								if(e1||e2||e3){
-									console.log("error "+e1+" "+e2+" "+e3);
+									//console.log("error "+e1+" "+e2+" "+e3);
+									logger.error("error "+e1+" "+e2+" "+e3);
 								}
 								else{
-									console.log("Uspesna registracija!");
+									//console.log("Uspesna registracija!");
 									
 									odgovor.redirect('/');
 								}
@@ -124,19 +138,39 @@ app.post('/registracija', function(zahteva, odgovor){
 app.post('/goal', function(zahteva,odgovor){
 	var form = new formidable.IncomingForm();
 	form.parse(zahteva, function(error, podatki){
-
-		client.query("INSERT INTO expenses.goal (amount, date, user_id) VALUES ($1,$2,$3)", [podatki.value, podatki.date, zahteva.session.id1], function(err, podatki){
-					if(err){
-						console.log("napaka: "+ err);
-					}
-					else{
-						//console.log("odgovor: "+odgovor);
-					
-						odgovor.redirect('/lifeExpenses');
-					}
-					
-					
-			});
+		client.query("SELECT * FROM expenses.goal WHERE user_id = $1", [zahteva.session.id1], function(e, cilji){
+			if(cilji.rows.length < 3){
+				client.query("INSERT INTO expenses.goal (amount, date, user_id) VALUES ($1,$2,$3)", [podatki.value, podatki.date, zahteva.session.id1], function(err, podatki){
+						if(err){
+							//console.log("napaka: "+ err);
+							logger.error("napaka: "+ err);
+						}
+						else{
+							//console.log("odgovor: "+odgovor);
+						
+							odgovor.redirect('/lifeExpenses');
+						}				
+				});
+			}	
+			else if(zahteva.session.role == true){
+				client.query("INSERT INTO expenses.goal (amount, date, user_id) VALUES ($1,$2,$3)", [podatki.value, podatki.date, zahteva.session.id1], function(err, podatki){
+						if(err){
+							//console.log("napaka: "+ err);
+							logger.error("napaka: "+ err);
+						}
+						else{
+							//console.log("odgovor: "+odgovor);
+						
+							odgovor.redirect('/lifeExpenses');
+						}				
+				});
+			}
+			else{
+				
+				sporocilo = "Upgrade to Pro";
+				odgovor.redirect('/lifeExpenses');
+			}
+		});
 	});
 });
 
@@ -146,7 +180,8 @@ app.post('/deleteGoal', function(zahteva, odgovor){
 
 		client.query("DELETE FROM expenses.goal WHERE goal_id = $1", [podatki.id], function(err, podatki){
 					if(err){
-						console.log("napaka: "+ err);
+						logger.error("napaka: "+ err);
+						//console.log("napaka: "+ err);
 					}
 					else{
 						//console.log("odgovor: "+odgovor);
@@ -163,7 +198,8 @@ app.post('/deleteGoal', function(zahteva, odgovor){
 app.get('/odjava', function(zahteva, odgovor){
 
 	zahteva.session.id1 = null;
-	console.log("odjava");
+	zahteva.session.role = null;
+	//console.log("odjava");
 	odgovor.redirect('/');
 })
 
@@ -172,18 +208,18 @@ app.get('/lifeExpenses', function(zahteva,odgovor){
 	//console.log("prijavljen z id "+ zahteva.session.id);
 	//console.log("prijavljen z id1 "+ zahteva.session.id1);
 	if(zahteva.session.id1 == null){
-		console.log("ni uporabnika");
+		//console.log("ni uporabnika");
+		logger.info("You need to log in!");
 		odgovor.redirect('/');
 	}
 	else{
 		
 		client.query("SELECT * FROM expenses.goal WHERE user_id = $1", [zahteva.session.id1], function(err, cilji){
-			
-			//console.log(cilji.rows);
+		
 			client.query("SELECT * FROM expenses.account WHERE user_id = $1 ORDER BY id ASC", [zahteva.session.id1], function(err, racuni){
 				client.query("SELECT value FROM expenses.action WHERE account_id = 1 AND user_id = $1 AND effect = -1 ORDER by action_id DESC LIMIT 12", [zahteva.session.id1], function(e, p){
 					client.query("SELECT value FROM expenses.action WHERE account_id = 1 AND user_id = $1 AND effect = 1 ORDER by action_id DESC LIMIT 12", [zahteva.session.id1], function(e1, p1){
-						console.log(p.rows.length);
+						//console.log(p.rows.length);
 						var tab = [0,0,0,0,0,0,0,0,0,0,0,0];
 						var tab2 = [0,0,0,0,0,0,0,0,0,0,0,0];
 						for(var i = 0; i < p.rows.length; i++){
@@ -194,11 +230,15 @@ app.get('/lifeExpenses', function(zahteva,odgovor){
 							tab2[i] = p1.rows[i].value;
 						}
 
-						console.log(tab);
-						odgovor.render('lifeExpenses', {cilji: cilji.rows, racuni: racuni.rows, tab1: tab, tab2: tab2});
+						//console.log(tab);
+						odgovor.render('lifeExpenses', {cilji: cilji.rows, racuni: racuni.rows, tab1: tab, tab2: tab2, sporocilo: sporocilo});
+						sporocilo = "";
 					});
 				});	
 			});
+			
+			//console.log(cilji.rows);
+			
 			//odgovor.render('lifeExpenses', {cilji: rezultat.rows});	
 		});
 	}
@@ -275,19 +315,24 @@ app.post('/transfer', function(zahteva,odgovor){
 				client.query("INSERT INTO expenses.action (name,type,date,effect,value,account_id, user_id) VALUES ($1,$2,$3,$4,$5,$6,$7)", [imeFrom, "transaction", d, 1, vrednost, idTo, zahteva.session.id1], function(e,r){
 					client.query("INSERT INTO expenses.action (name,type,date,effect,value,account_id, user_id) VALUES ($1,$2,$3,$4,$5,$6,$7)", [imeTo, "transaction", d, -1, vrednost, idFrom, zahteva.session.id1], function(e1,r1){
 						if(err ){
-							console.log("Napaka pri transakciji "+err);
+							//console.log("Napaka pri transakciji "+err);
+							logger.error("Napaka pri transakciji "+err);
 						}
 						if(e){
-							console.log("Napaka pri transakciji "+e);
+							logger.error("Napaka pri transakciji "+e);
+							//console.log("Napaka pri transakciji "+e);
 						}
 						if(e1){
-							console.log("Napaka pri transakciji "+e1);
+							logger.error("Napaka pri transakciji "+e1);
+							//console.log("Napaka pri transakciji "+e1);
 						}
 						if(err1){
-							console.log("Napaka pri transakciji "+err1);
+							logger.error("Napaka pri transakciji "+err1);
+							//console.log("Napaka pri transakciji "+err1);
 						}
 						else{
-							console.log("Uspesno");
+							logger.info("Uspesno");
+							//console.log("Uspesno");
 						}	
 						
 						if(idFrom == 1){
@@ -332,7 +377,8 @@ app.post('/addAction', function(zahteva, odgovor){
 				//console.log("pristej amount "+vrednost);
 				client.query("UPDATE expenses.account SET credit = credit+$1 WHERE account_id = $2", [vrednost, id], function(napaka, vsebina){
 					if (napaka) {
-						console.log("Napaka pri posodabljanju stanja na racunu: "+ napaka);
+						logger.error("Napaka pri posodabljanju stanja na racunu: "+ napaka);
+						//console.log("Napaka pri posodabljanju stanja na racunu: "+ napaka);
 					}
 					/*console.log("vsebina: "+ vsebina);
 					console.log("Posodobljen racun");
@@ -360,6 +406,7 @@ app.post('/addAction', function(zahteva, odgovor){
 				client.query("UPDATE expenses.account SET credit = credit-$1 WHERE account_id = $2", [vrednost, id], function(napaka, vsebina){
 					if (napaka) {
 						console.log("Napaka pri posodabljanju stanja na racunu: "+ napaka);
+						logger.error("Napaka pri posodabljanju stanja na racunu: "+ napaka);
 					}
 					/*console.log("vsebina: "+ vsebina);
 					console.log("Posodobljen racun");
@@ -403,7 +450,7 @@ app.get('/', function(zahteva, odgovor) {
 //___________________________________________________________
 
 http.listen(process.env.PORT, function() {
-  console.log("Strežnik posluša na portu " + process.env.PORT + ".");
+  logger.info("Strežnik posluša na portu " + process.env.PORT + ".");
 });
 
 

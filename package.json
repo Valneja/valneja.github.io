@@ -9,7 +9,9 @@
     "express-session": "latest",
     "formidable": "latest",
     "html": "latest",
+    "bcrypt-nodejs":"latest",
     "path": "latest",
+    "winston":"latest",
     "pg": "latest"
   }
 }
